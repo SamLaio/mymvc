@@ -6,24 +6,19 @@ class LibBoot {
         $control = (isset($url[2]) and $url[2] != '')?$this->FileCk(SCANDIR ('control'),$url[2]):'index';
         $data['get'] = $this->InDataCk($_GET);
         $data['post'] = $this->InDataCk($_POST);
-
         include "control/$control.php";
-        $control_odj = new $control;
+        include "view/$view.html";
+        $ControlObj = new $control;
         if(isset($url[3]) and $url[3] != ''){
             $url[3] = explode('?', $url[3]);
             $url[3] = $url[3][0];
-            if(method_exists($control_odj,$url[3])){
+            if(method_exists($ControlObj,$url[3])){
                 if(count($data['get']) != 0  or count($data['post']) != 0)
-                    $control_odj->{$url[3]}($data);
+                    $ControlObj->{$url[3]}($data);
                 else
-                    $control_odj->{$url[3]}();
-            }else{
-                $view = 'error';
-                $control = $view;
+                    $ControlObj->{$url[3]}();
             }
         }
-        if($view == $control)
-            include "view/$view.html";
     }
     private function FileCk($arr,$file_name){
         $ret = 'error';
@@ -45,11 +40,7 @@ class LibBoot {
             foreach($value as $key2 => $value2)
                 $value[$key2] = $this->CheckInput($value2);
         }else{
-            $value = str_replace ( "&", '@&5', $value);
-            $value = str_replace ( "'", '@&1', $value);
-            $value = str_replace ( '"', '@&2', $value);
-            $value = str_replace ( "<", '@&3', $value);
-            $value = str_replace ( ">", '@&4', $value);
+            $value = str_replace ( array("&","'",'"',"<",">"), array('@&5','@&1','@&2','@&3','@&4'), $value);
         }
         return $value;
     }

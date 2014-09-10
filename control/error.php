@@ -1,9 +1,9 @@
 <?php
-    class error {
+    class error extends LibDataBase {
         function __construct() {
-            echo 'this is an error!';
         }
         public function error($id = false){
+            
         }
     }
 ?>
