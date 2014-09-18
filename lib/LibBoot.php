@@ -35,7 +35,7 @@ class LibBoot {
 	}
 
 	private function InDataCk($arr) {
-		$data = array();
+		$data = [];
 		foreach ($arr as $key => $value) {
 			$data[$key] = $this->CheckInput($value);
 		}
@@ -47,7 +47,7 @@ class LibBoot {
 			foreach ($value as $key2 => $value2)
 				$value[$key2] = $this->CheckInput($value2);
 		} else {
-			$value = str_replace(array("&", "'", '"', "<", ">"), array('@&5', '@&1', '@&2', '@&3', '@&4'), $value);
+			$value = str_replace(["&", "'", '"', "<", ">"], ['@&5', '@&1', '@&2', '@&3', '@&4'], $value);
 		}
 		return $value;
 	}

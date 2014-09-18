@@ -51,10 +51,10 @@ class LibDataBase {
 				exit;
 			}
 			$link = new PDO(
-					"mysql:host=$to_host;dbname=" . $this->dbname, $to_user, $to_pass, array(
+					"mysql:host=$to_host;dbname=" . $this->dbname, $to_user, $to_pass, [
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
 				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-					)
+					]
 			);
 		}
 		if ($this->dbtype == 'sqlite') {
