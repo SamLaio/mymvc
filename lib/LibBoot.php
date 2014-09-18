@@ -1,5 +1,4 @@
 <?php
-
 class LibBoot {
 
 	function __construct($url) {
@@ -61,3 +60,4 @@ class LibBoot {
 	  return $body;
 	  } */
 }
+?>
