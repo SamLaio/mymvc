@@ -1,4 +1,5 @@
 <?php
+
 class LibBoot {
 
 	function __construct($url) {
@@ -7,11 +8,18 @@ class LibBoot {
 //	   print_r($db->Assoc('select * from phitech.member;'));
 		$view = (isset($url[2]) and $url[2] != '') ? $this->FileCk(SCANDIR('view'), $url[2]) : 'index';
 		$control = (isset($url[2]) and $url[2] != '') ? $this->FileCk(SCANDIR('control'), $url[2]) : 'index';
+		if($db->install){
+			$control = 'install';
+			$view = $control;
+		}
 		$data['get'] = $this->InDataCk($_GET);
 		$data['post'] = $this->InDataCk($_POST);
 		include "control/$control.php";
-		include "view/$view.html";
 		$ControlObj = new $control;
+		if($view == $control){
+			include "view/View.php";
+			$ViewObj = new View($view);
+		}
 		if (isset($url[3]) and $url[3] != '') {
 			$url[3] = explode('?', $url[3]);
 			$url[3] = $url[3][0];
@@ -60,4 +68,5 @@ class LibBoot {
 	  return $body;
 	  } */
 }
+
 ?>

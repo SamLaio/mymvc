@@ -1,29 +1,31 @@
 <?php
+
 class LibDataBase {
+
 	//public $dbhost = '192.168.248.25';
-	public $dbtype;
-	public $dbhost;
-	public $dbuser;
-	public $dbpass;
-	public $dbname;
-	public $table;
+	public $dbtype, $dbhost,$dbuser,$dbpass,$dbname,$table;
 	public $sql_count = 0;
-	private $sql_change = true;
+	public $install = false;
 
 	//共用function
 	function __construct() {
 		include_once 'Config.php';
-		$this->dbtype = $DbType;
-		if ($DbType == 'mysql') {
-			$this->dbhost = $DbHost;
-			$this->dbuser = $DbUser;
-			$this->dbpass = $DbPw;
-			$this->dbname = $DbName;
+		if (!isset($DbType)) {
+			//echo 'unset';
+			$this->install = true;
+		}else{
+			$this->dbtype = $DbType;
+			if ($DbType == 'mysql') {
+				$this->dbhost = $DbHost;
+				$this->dbuser = $DbUser;
+				$this->dbpass = $DbPw;
+				$this->dbname = $DbName;
+			}
+			if ($DbType == 'sqlite') {
+				$this->dbname = $DbName;
+			}
+			//$this->Link();
 		}
-		if ($DbType == 'sqlite') {
-			$this->dbname = $DbName;
-		}
-		$this->Link();
 	}
 
 	protected function comb($sub1, $sub2) {
@@ -173,4 +175,5 @@ class LibDataBase {
 	  } */
 	//備援
 }
+
 ?>

@@ -6,10 +6,7 @@ class index extends LibDataBase {
 	}
 
 	public function error($id = false) {
-		//echo $id;
-		print_r($id);
-
-		echo 1;
+		
 	}
 
 }

@@ -1,0 +1,30 @@
+AdName<input type = 'text' id = 'AdName' /><br />
+Adpw<input type = 'password' id = 'AdPw' /><br />
+DbType<select id = 'DbType'><option value = ''></option><option value = 'sqlite'>Sqlite</option><option value = 'mysql'>MySql</option></select><br />
+<div id ='sql'>
+	DbName<input type = 'text' id = 'DbName' /><br />
+	<div id ='mysql'>
+		DbHost<input type = 'text' id = 'DbHost' /><br />
+		DbAdame<input type = 'text' id = 'DbName' /><br />
+		DbAdPw<input type = 'password' id = 'DbAdPw' /><br />
+	</div>
+</div>
+<input type = 'button' onclick ='next()' id = 'next' />
+<script>
+var st = 0;
+var AdName,Adpw,DbType,DbHost,DbName,DbAdame,DbAdPw;
+$('#sql').hide();
+$('#mysql').hide();
+function next(){
+	
+}
+$('#DbType').change(function(){
+	$('#sql').hide();
+	$('#mysql').hide();
+	if($(this).val() != ''){
+		$('#sql').show();
+		if($(this).val() != 'sqlite')
+			$('#mysql').show();
+	}
+});
+</script>

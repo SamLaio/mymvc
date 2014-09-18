@@ -7,6 +7,6 @@
 	$DbName = 'mymvc';
 	$DbPw = 'phitech';
 	 */
-	$DbType = 'sqlite';
-	$DbName = 'model/mymvc.m5';
+	/*$DbType = 'sqlite';
+	$DbName = 'model/mymvc.m5';*/
 ?>
