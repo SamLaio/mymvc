@@ -7,5 +7,5 @@
 <Files ~ "^\.(htaccess|htpasswd)$">
 deny from all
 </Files>
-DirectoryIndex load.php       
+DirectoryIndex load.php
 order deny,allow
