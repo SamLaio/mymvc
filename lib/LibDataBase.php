@@ -9,22 +9,26 @@ class LibDataBase {
 
 	//共用function
 	function __construct() {
-		include_once 'Config.php';
-		if (!isset($DbType)) {
-			//echo 'unset';
-			$this->install = true;
+		if(file_exists('Config.php')){
+			include_once 'Config.php';
+			if (!isset($DbType) ) {
+				//echo 'unset';
+				$this->install = true;
+			}else{
+				$this->dbtype = $DbType;
+				if ($DbType == 'mysql') {
+					$this->dbhost = $DbHost;
+					$this->dbuser = $DbUser;
+					$this->dbpass = $DbPw;
+					$this->dbname = $DbName;
+				}
+				if ($DbType == 'sqlite') {
+					$this->dbname = $DbName;
+				}
+				//$this->Link();
+			}
 		}else{
-			$this->dbtype = $DbType;
-			if ($DbType == 'mysql') {
-				$this->dbhost = $DbHost;
-				$this->dbuser = $DbUser;
-				$this->dbpass = $DbPw;
-				$this->dbname = $DbName;
-			}
-			if ($DbType == 'sqlite') {
-				$this->dbname = $DbName;
-			}
-			//$this->Link();
+			$this->install = true;
 		}
 	}
 
@@ -42,7 +46,7 @@ class LibDataBase {
 		return $re;
 	}
 
-	private function Link() {
+	public function Link() {
 		//test link add by Sam 20140805
 		if ($this->dbtype == 'mysql') {
 			$to_host = $this->dbhost;

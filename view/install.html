@@ -5,7 +5,7 @@ DbType<select id = 'DbType'><option value = ''></option><option value = 'sqlite'
 	DbName<input type = 'text' id = 'DbName' /><br />
 	<div id ='mysql'>
 		DbHost<input type = 'text' id = 'DbHost' /><br />
-		DbAdame<input type = 'text' id = 'DbName' /><br />
+		DbAdame<input type = 'text' id = 'DbAdName' /><br />
 		DbAdPw<input type = 'password' id = 'DbAdPw' /><br />
 	</div>
 </div>
@@ -17,6 +17,7 @@ $('#sql').hide();
 $('#mysql').hide();
 function next(){
 	//document.location.href="?AdPw="+$('#AdPw').val();
+	$.post('./install/St1?cgi=true',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val()},function(re){alert(re);});
 }
 $('#DbType').change(function(){
 	$('#sql').hide();

@@ -20,10 +20,6 @@ class LibBoot {
 		$data['post'] = $this->InDataCk($_POST);
 		include "control/$control.php";
 		$ControlObj = new $control;
-		if($view == $control){
-			include "view/View.php";
-			$ViewObj = new View($view);
-		}
 		if (isset($url[3]) and $url[3] != '') {
 			$url[3] = explode('?', $url[3]);
 			$url[3] = $url[3][0];
@@ -33,6 +29,10 @@ class LibBoot {
 				else
 					$ControlObj->{$url[3]}();
 			}
+		}
+		if($view == $control and !isset($data['get']['cgi'])){
+			include "view/View.php";
+			$ViewObj = new View($view);
 		}
 	}
 
