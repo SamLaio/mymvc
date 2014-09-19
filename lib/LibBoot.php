@@ -76,16 +76,11 @@ class LibBoot {
 				}
 			}
 		}
+		unset($_SESSION['DepwEncode']);
+		unset($_SESSION['DePwHand']);
 		return $tmp;
 	}
-	private function html_decode($body){
-		$body = str_replace ( '@&4', ">", $body);
-		$body = str_replace ( '@&3', "<", $body);
-		$body = str_replace ( '@&2', '"', $body);
-		$body = str_replace ( '@&1', "'", $body);
-		$body = str_replace ( '@&5', "&", $body);
-		return $body;
-	}
+
 }
 
 ?>

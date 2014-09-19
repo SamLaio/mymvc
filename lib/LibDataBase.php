@@ -145,7 +145,7 @@ class LibDataBase {
 		$this->sql_count = count($query);
 		$query = $query->fetchAll();
 		$link = null;
-		return $query;
+		return $this->ValDecode(query);
 	}
 
 	public function Assoc($sql) {
@@ -156,9 +156,27 @@ class LibDataBase {
 		$re = $re->fetchAll();
 		$this->sql_count = count($re);
 		$link = null;
+		return $this->ValDecode($re);
+	}
+	private function ValDecode($arr){
+		foreach($arr as $key => $val){
+			if(is_array($val)){
+				foreach($val as $arKey => $arVal)
+					$re[$arKey] = $this->ValDecode($arVal);
+			}else{
+				$re[$key] = $this->html_decode($val);
+			}
+		}
 		return $re;
 	}
-
+	private function html_decode($body){
+		$body = str_replace ( '@&4', ">", $body);
+		$body = str_replace ( '@&3', "<", $body);
+		$body = str_replace ( '@&2', '"', $body);
+		$body = str_replace ( '@&1', "'", $body);
+		$body = str_replace ( '@&5', "&", $body);
+		return $body;
+	}
 	//sql執行 end
 	//備援 已不使用，改為mysql自動同步 by Sam 20140805
 	/* private function p_db($sql){
