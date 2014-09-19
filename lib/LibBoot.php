@@ -1,17 +1,21 @@
 <?php
 
 class LibBoot {
-
 	function __construct($url) {
+		if(!isset($_SESSION))
+			session_start();
 		include 'LibDataBase.php';
 		$db = new LibDataBase;
-//	   print_r($db->Assoc('select * from phitech.member;'));
 		$view = (isset($url[2]) and $url[2] != '') ? $this->FileCk(SCANDIR('view'), $url[2]) : 'index';
 		$control = (isset($url[2]) and $url[2] != '') ? $this->FileCk(SCANDIR('control'), $url[2]) : 'index';
 		if($db->install){
 			$control = 'install';
 			$view = $control;
 		}
+		if(isset($_SESSION['PwHand']))
+			$_SESSION['DePwHand'] = $_SESSION['PwHand'];
+		if(isset($_SESSION['PwEnCode']))
+			$_SESSION['DePwEnCode'] = $_SESSION['PwEnCode'];
 		$data['get'] = $this->InDataCk($_GET);
 		$data['post'] = $this->InDataCk($_POST);
 		include "control/$control.php";
@@ -44,6 +48,9 @@ class LibBoot {
 	private function InDataCk($arr) {
 		$data = [];
 		foreach ($arr as $key => $value) {
+			if(isset($_SESSION['DePwHand']) and stristr($value,$_SESSION['DePwHand'])){
+				$value = $this->PwDeCode(str_replace($_SESSION['DePwHand'],'',$value));
+			}
 			$data[$key] = $this->CheckInput($value);
 		}
 		return $data;
@@ -58,15 +65,27 @@ class LibBoot {
 		}
 		return $value;
 	}
-
-	/* function html_decode($body){
-	  $body = str_replace ( '@&4', ">", $body);
-	  $body = str_replace ( '@&3', "<", $body);
-	  $body = str_replace ( '@&2', '"', $body);
-	  $body = str_replace ( '@&1', "'", $body);
-	  $body = str_replace ( '@&5', "&", $body);
-	  return $body;
-	  } */
+	public function PwDeCode($str){
+		$tmp = '';
+		$arr = $_SESSION['DePwEnCode'];
+		$str = explode('*|*', $str);
+		foreach($str as $val){
+			foreach($arr as $arr_v){
+				if(urldecode($arr_v['val']) == urldecode($val)){
+					$tmp .= urldecode($arr_v['id']);
+				}
+			}
+		}
+		return $tmp;
+	}
+	private function html_decode($body){
+		$body = str_replace ( '@&4', ">", $body);
+		$body = str_replace ( '@&3', "<", $body);
+		$body = str_replace ( '@&2', '"', $body);
+		$body = str_replace ( '@&1', "'", $body);
+		$body = str_replace ( '@&5', "&", $body);
+		return $body;
+	}
 }
 
 ?>
