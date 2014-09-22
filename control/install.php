@@ -1,6 +1,6 @@
 <?php
 class install {
-
+	private $installObj;
 	function __construct() {
 		
 	}
@@ -26,21 +26,16 @@ class install {
 		}
 		$str = "<?php\n".$str."?>";
 		$fp = fopen('lib/Config.php','w+');
-		//$file = fopen("test.xml","a+"); //開啟檔案
 		fwrite($fp,$str);
 		fclose($fp);
 		$arr = $arr['post'];
+		include 'model/install.php';
+		$this->installObj = new ModeInstall;
+		$this->installObj->St1();
 		$this->St2();
 	}
 	private function St2(){
-		include 'model/install.php';
-		$installObj = new ModeInstall;
-		$installObj->St1();
-		$installObj->St2();
-		/*if($config['DbType']=='sqlite'){
-			$installObj->Query('CREATE TABLE [user] ([seq] INTEGER  PRIMARY KEY NOT NULL,[account] TEXT  NOT NULL,[pswd] TEXT  NOT NULL,[name] TEXT  NOT NULL,[status] BOOLEAN  NOT NULL);');
-			$installObj->Query('CREATE UNIQUE INDEX [IDX_USER_SEQ] ON [user]([seq]  DESC);');
-		}*/
+		$this->installObj->St2();
 	}
 }
 
