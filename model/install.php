@@ -13,12 +13,15 @@ class ModeInstall extends LibDataBase {
 		if ($DbType == 'sqlite') {
 			$this->dbname = $DbName;
 		}
-		$this->to_link = $this->link();
 	}
 	public function St2(){
 		if($this->dbtype == 'mysql'){
 			//CREATE DATABASE `test` /*!40100 COLLATE 'utf8_unicode_ci' */
 			$this->Query("create database `$this->dbname` /*!40100 COLLATE 'utf8_unicode_ci';");
+		}elseif($this->dbtype=='sqlite'){
+			//echo 11;
+			$this->Query('CREATE TABLE user ([seq] INTEGER  PRIMARY KEY NOT NULL,[account] TEXT  NOT NULL,[pswd] TEXT  NOT NULL,[name] TEXT  NOT NULL,[status] INTEGER  NOT NULL);');
+			$this->Query('CREATE UNIQUE INDEX [IDX_USER_SEQ] ON [user]([seq]  DESC);');
 		}
 	}
 }

@@ -11,22 +11,24 @@ class LibDataBase {
 	function __construct() {
 		if(file_exists('Config.php')){
 			include_once 'Config.php';
-			if (!isset($DbType) ) {
-				//echo 'unset';
-				$this->install = true;
-			}else{
-				$this->dbtype = $DbType;
-				if ($DbType == 'mysql') {
-					$this->dbhost = $DbHost;
-					$this->dbuser = $DbUser;
-					$this->dbpass = $DbPw;
-					$this->dbname = $DbName;
+			//if(!$UnUseDb){
+				if (!isset($DbType) ) {
+					//echo 'unset';
+					$this->install = true;
+				}else{
+					$this->dbtype = $DbType;
+					if ($DbType == 'mysql') {
+						$this->dbhost = $DbHost;
+						$this->dbuser = $DbUser;
+						$this->dbpass = $DbPw;
+						$this->dbname = $DbName;
+					}
+					if ($DbType == 'sqlite') {
+						$this->dbname = $DbName;
+					}
+					//$this->Link();
 				}
-				if ($DbType == 'sqlite') {
-					$this->dbname = $DbName;
-				}
-				//$this->Link();
-			}
+			//}
 		}else{
 			$this->install = true;
 		}
@@ -64,15 +66,9 @@ class LibDataBase {
 			);
 		}
 		if ($this->dbtype == 'sqlite') {
-			//echo $this -> dbhost;
+			//echo $this -> dbname;
 			$link = new PDO("sqlite:" . $this->dbname);
 		}
-		/* if($to_host != $this->dbhost){
-		  $sql = "insert into news.db_log (`date`) values ('".date('Y-m-d H:i:s')."');";
-		  $link->query($sql);
-		  }else{
-
-		  } */
 		//test link add by Sam 20140805
 		return $link;
 	}
