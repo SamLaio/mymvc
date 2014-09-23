@@ -2,40 +2,42 @@
 class install {
 	private $installObj;
 	function __construct() {
-		
+		if(file_exists('lib/Config.php')){
+			include 'lib/Config.php';
+			if(isset($DbType)){
+				echo '<script>history.back(1);</script>';
+				exit;
+			}
+		}
 	}
 	function St1($arr){
-			/*
-				$DbType = 'mysql';
-				$DbHost = '192.168.247.33';
-				$DbUser = 'root';
-				$DbName = 'mymvc';
-				$DbPw = 'phitech';
-			 */
-		if(isset($arr['post']['DbType']) and $arr['post']['DbType'] != '')
-			$str = '$'."DbType = '".$arr['post']['DbType']."';\n";
-		if(isset($arr['post']['DbHost']) and $arr['post']['DbHost'] != '')
-			$str .= '$'."DbHost = '".$arr['post']['DbHost']."';\n";
-		if(isset($arr['post']['DbUser']) and $arr['post']['DbUser'] != '')
-			$str .= '$'."DbUser = '".$arr['post']['DbUser']."';\n";
-		if(isset($arr['post']['DbName']) and $arr['post']['DbName'] != ''){
-			if($arr['post']['DbType'] != 'sqlite')
-				$str .= '$'."DbName = '".$arr['post']['DbName']."';\n";
+		$arr = $arr['post'];
+		if(isset($arr['DbType']) and $arr['DbType'] != '')
+			$str = '$'."DbType = '".$arr['DbType']."';\n";
+		if(isset($arr['DbHost']) and $arr['DbHost'] != '')
+			$str .= '$'."DbHost = '".$arr['DbHost']."';\n";
+		if(isset($arr['DbAdName']) and $arr['DbAdName'] != '')
+			$str .= '$'."DbUser = '".$arr['DbAdName']."';\n";
+		if(isset($arr['DbAdPw']) and $arr['DbAdPw'] != '')
+			$str .= '$'."DbPw = '".$arr['DbAdPw']."';\n";
+		if(isset($arr['DbAdName']) and $arr['DbAdName'] != '')
+			$str .= '$'."DbAdName = '".$arr['DbAdName']."';\n";
+		if(isset($arr['DbAdPw']) and $arr['DbAdPw'] != '')
+			$str .= '$'."DbAdPw = '".$arr['DbAdPw']."';\n";
+		if(isset($arr['DbName']) and $arr['DbName'] != ''){
+			if($arr['DbType'] != 'sqlite')
+				$str .= '$'."DbName = '".$arr['DbName']."';\n";
 			else
-				$str .= '$'."DbName = 'model/".$arr['post']['DbName']."';\n";
+				$str .= '$'."DbName = 'model/".$arr['DbName']."';\n";
 		}
 		$str = "<?php\n".$str."?>";
 		$fp = fopen('lib/Config.php','w+');
 		fwrite($fp,$str);
 		fclose($fp);
-		$arr = $arr['post'];
 		include 'model/install.php';
 		$this->installObj = new ModeInstall;
 		$this->installObj->St1();
-		$this->St2();
-	}
-	private function St2(){
-		$this->installObj->St2();
+		$this->installObj->St2(array('AdName'=>$arr['AdName'],'AdPw'=>$arr['AdPw']));
 	}
 }
 

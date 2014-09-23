@@ -9,9 +9,8 @@ class LibDataBase {
 
 	//共用function
 	function __construct() {
-		if(file_exists('Config.php')){
-			include_once 'Config.php';
-			//if(!$UnUseDb){
+		if(file_exists('lib/Config.php')){
+			include_once 'lib/Config.php';
 				if (!isset($DbType) ) {
 					//echo 'unset';
 					$this->install = true;
@@ -26,9 +25,7 @@ class LibDataBase {
 					if ($DbType == 'sqlite') {
 						$this->dbname = $DbName;
 					}
-					//$this->Link();
 				}
-			//}
 		}else{
 			$this->install = true;
 		}

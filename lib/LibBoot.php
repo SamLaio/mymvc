@@ -34,6 +34,8 @@ class LibBoot {
 			include "view/View.php";
 			$ViewObj = new View($view);
 		}
+		unset($_SESSION['DepwEncode']);
+		unset($_SESSION['DePwHand']);
 	}
 
 	private function FileCk($arr, $file_name) {
@@ -76,8 +78,6 @@ class LibBoot {
 				}
 			}
 		}
-		unset($_SESSION['DepwEncode']);
-		unset($_SESSION['DePwHand']);
 		return $tmp;
 	}
 
