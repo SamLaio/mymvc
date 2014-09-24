@@ -17,15 +17,16 @@ $('#sql').hide();
 $('#mysql').hide();
 function next(){
 	//document.location.href="?AdPw="+$('#AdPw').val();
-	$.post('./install/St1?cgi=true',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val()},function(re){alert(re);});
+	$.post('./install/St1?cgi=true',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val()},function(re){location.reload();});
 }
 $('#DbType').change(function(){
 	$('#sql').hide();
 	$('#mysql').hide();
 	if($(this).val() != ''){
 		$('#sql').show();
-		if($(this).val() != 'sqlite')
+		if($(this).val() != 'sqlite'){
 			$('#mysql').show();
+		}
 	}
 });
 </script>
