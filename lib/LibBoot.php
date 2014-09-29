@@ -5,10 +5,13 @@ class LibBoot {
 		if(!isset($_SESSION))
 			session_start();
 		include 'LibDataBase.php';
-		$db = new LibDataBase;
+		$to_install = false;
+		if(!file_exists('lib/Config.php')){
+			$to_install = true;
+		}
 		$view = (isset($url[2]) and $url[2] != '') ? $this->FileCk(SCANDIR('view'), $url[2]) : 'index';
 		$control = (isset($url[2]) and $url[2] != '') ? $this->FileCk(SCANDIR('control'), $url[2]) : 'index';
-		if($db->install){
+		if($to_install){
 			$control = 'install';
 			$view = $control;
 		}

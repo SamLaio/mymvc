@@ -6,7 +6,10 @@
 	$DbUser = 'root';
 	$DbName = 'mymvc';
 	$DbPw = 'phitech';
-	 */
-	/*$DbType = 'sqlite';
-	$DbName = 'model/mymvc.m5';*/
+	*/
+	/*
+	sqlite:
+	$DbType = 'sqlite';
+	$DbName = 'model/mymvc.m5';
+	*/
 ?>

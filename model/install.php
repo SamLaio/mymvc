@@ -1,20 +1,9 @@
 <?php
 class ModeInstall extends LibDataBase {
-	private $to_link;
-	public function St1() {
-		include 'lib/Config.php';
-		$this->dbtype = $DbType;
-		if ($DbType == 'mysql') {
-			$this->dbhost = $DbHost;
-			$this->dbuser = $DbUser;
-			$this->dbpass = $DbPw;
-			$this->dbname = $DbName;
-		}
-		if ($DbType == 'sqlite') {
-			$this->dbname = $DbName;
-		}
+	function __construct() {
+		parent::__construct();
 	}
-	public function St2($arr){
+	public function St1($arr){
 		if($this->dbtype == 'mysql'){
 			$this->Query("CREATE DATABASE IF NOT EXISTS `$this->dbname` /*!40100 DEFAULT CHARACTER SET latin1 */;");
 			$this->Query("USE `$this->dbname`;");

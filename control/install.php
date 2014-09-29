@@ -12,13 +12,6 @@ class install {
 	}
 	function St1($arr){
 		$arr = $arr['post'];
-		/*
-		if(isset($arr['AdName']) and $arr['AdName'] != '')
-			$str = '$'."AdName = '".$arr['AdName']."';\n";
-		
-		if(isset($arr['AdPw']) and $arr['AdPw'] != '')
-			$str = '$'."AdPw = '".$arr['AdPw']."';\n";
-		*/
 		//all
 		if(isset($arr['DbType']) and $arr['DbType'] != '')
 			$str = '$'."DbType = '".$arr['DbType']."';\n";
@@ -43,8 +36,7 @@ class install {
 		fclose($fp);
 		include 'model/install.php';
 		$this->installObj = new ModeInstall;
-		$this->installObj->St1();
-		$this->installObj->St2(array('AdName'=>$arr['AdName'],'AdPw'=>$arr['AdPw']));
+		$this->installObj->St1(array('AdName'=>$arr['AdName'],'AdPw'=>$arr['AdPw']));
 	}
 }
 

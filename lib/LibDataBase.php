@@ -11,26 +11,25 @@ class LibDataBase {
 	function __construct() {
 		if(file_exists('lib/Config.php')){
 			include_once 'lib/Config.php';
-				if (!isset($DbType) ) {
-					//echo 'unset';
-					$this->install = true;
-				}else{
-					$this->dbtype = $DbType;
-					if ($DbType == 'mysql') {
-						$this->dbhost = $DbHost;
-						$this->dbuser = $DbUser;
-						$this->dbpass = $DbPw;
-						$this->dbname = $DbName;
-					}
-					if ($DbType == 'sqlite') {
-						$this->dbname = $DbName;
-					}
+			if (!isset($DbType) ) {
+				$this->install = true;
+			}else{
+				$this->dbtype = $DbType;
+				if ($DbType == 'mysql') {
+					$this->dbhost = $DbHost;
+					$this->dbuser = $DbUser;
+					$this->dbpass = $DbPw;
+					$this->dbname = $DbName;
 				}
+				if ($DbType == 'sqlite') {
+					$this->dbname = $DbName;
+				}
+			}
+			
 		}else{
 			$this->install = true;
 		}
 	}
-
 	protected function comb($sub1, $sub2) {
 		$re = '';
 		$sub3 = '';
@@ -46,7 +45,9 @@ class LibDataBase {
 	}
 
 	public function Link() {
+		echo $this->dbname;
 		//test link add by Sam 20140805
+		$link = false;
 		if ($this->dbtype == 'mysql') {
 			$to_host = $this->dbhost;
 			$to_user = $this->dbuser;
@@ -67,7 +68,10 @@ class LibDataBase {
 			$link = new PDO("sqlite:" . $this->dbname);
 		}
 		//test link add by Sam 20140805
-		return $link;
+		if($link)
+			return $link;
+		else
+			echo 'DB link is false.';
 	}
 
 	//測試連線
