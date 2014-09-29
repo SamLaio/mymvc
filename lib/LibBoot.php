@@ -12,10 +12,12 @@ class LibBoot {
 			$control = 'install';
 			$view = $control;
 		}
-		if(isset($_SESSION['PwHand']))
+		if(isset($_SESSION['PwHand'])){
 			$_SESSION['DePwHand'] = $_SESSION['PwHand'];
-		if(isset($_SESSION['PwEnCode']))
+		}
+		if(isset($_SESSION['PwEnCode'])){
 			$_SESSION['DePwEnCode'] = $_SESSION['PwEnCode'];
+		}
 		$data['get'] = $this->InDataCk($_GET);
 		$data['post'] = $this->InDataCk($_POST);
 		include "control/$control.php";
@@ -24,18 +26,23 @@ class LibBoot {
 			$url[3] = explode('?', $url[3]);
 			$url[3] = $url[3][0];
 			if (method_exists($ControlObj, $url[3])) {
-				if (count($data['get']) != 0 or count($data['post']) != 0)
+				if (count($data['get']) != 0 or count($data['post']) != 0){
 					$ControlObj->{$url[3]}($data);
-				else
+				}else{
 					$ControlObj->{$url[3]}();
+				}
 			}
 		}
 		if($view == $control and !isset($data['get']['cgi'])){
 			include "view/View.php";
 			$ViewObj = new View($view);
 		}
-		unset($_SESSION['DepwEncode']);
-		unset($_SESSION['DePwHand']);
+		if(isset($_SESSION['DePwEnCode'])){
+			unset($_SESSION['DePwEnCode']);
+		}
+		if(isset($_SESSION['DePwHand'])){
+			unset($_SESSION['DePwHand']);
+		}
 	}
 
 	private function FileCk($arr, $file_name) {
@@ -80,7 +87,5 @@ class LibBoot {
 		}
 		return $tmp;
 	}
-
 }
-
 ?>
