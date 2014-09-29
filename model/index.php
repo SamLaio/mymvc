@@ -4,7 +4,9 @@ class ModelIndex  extends LibDataBase {
 		parent::__construct();
 	}
 	public function test(){
-		$this->Link();
+//		echo $this->Select('user', '*');
+		//print_r($this->Assoc($this->Select('user', '*')));
+		//$this->Assoc($this->Select('user','*')));
 	}
 }
 ?>

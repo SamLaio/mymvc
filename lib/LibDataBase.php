@@ -45,7 +45,6 @@ class LibDataBase {
 	}
 
 	public function Link() {
-		echo $this->dbname;
 		//test link add by Sam 20140805
 		$link = false;
 		if ($this->dbtype == 'mysql') {
@@ -157,18 +156,8 @@ class LibDataBase {
 		$re = $re->fetchAll();
 		$this->sql_count = count($re);
 		$link = null;
+		
 		return $this->ValDecode($re);
-	}
-	private function ValDecode($arr){
-		foreach($arr as $key => $val){
-			if(is_array($val)){
-				foreach($val as $arKey => $arVal)
-					$re[$arKey] = $this->ValDecode($arVal);
-			}else{
-				$re[$key] = $this->html_decode($val);
-			}
-		}
-		return $re;
 	}
 	private function html_decode($body){
 		$body = str_replace ( '@&4', ">", $body);
@@ -178,21 +167,16 @@ class LibDataBase {
 		$body = str_replace ( '@&5', "&", $body);
 		return $body;
 	}
-	//sql執行 end
-	//備援 已不使用，改為mysql自動同步 by Sam 20140805
-	/* private function p_db($sql){
-	  if(stristr ($sql, 'insert') or stristr ($sql, 'DELETE') or  stristr ($sql, 'update')){
-	  $link = new PDO(
-	  "mysql:host=$this->p_dbhost;dbname=$this->dbname",
-	  $this -> dbuser,
-	  $this -> dbpass,
-	  array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')
-	  );
-	  $link->query($sql);
-	  $link = null;
-	  }
-	  } */
-	//備援
+	private function ValDecode($arr){
+		if(is_array($arr)){
+			foreach($arr as $key2 => $value2)
+				$arr[$key2] = $this->ValDecode($value2);
+		}else{
+			$arr = stripslashes($arr);
+			$arr = $this->html_decode($arr);
+		}
+		return $arr;
+	}
 }
 
 ?>
