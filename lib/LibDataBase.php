@@ -1,8 +1,6 @@
 <?php
 
 class LibDataBase {
-
-	//public $dbhost = '192.168.248.25';
 	public $dbtype, $dbhost,$dbuser,$dbpass,$dbname,$table;
 	public $sql_count = 0;
 	public $install = false;
@@ -88,7 +86,6 @@ class LibDataBase {
 			return true;
 		}
 	}
-
 	//共用function end
 	//語法組合
 	public function Select($table, $field, $req = '', $or_by = '', $limit = '') {
@@ -127,12 +124,9 @@ class LibDataBase {
 		$sql = "update $table set $value $req;";
 		return $sql;
 	}
-
 	//語法組合 end
 	//sql執行
 	public function Query($sql) {
-		/* if($this -> sql_change)
-		  $this->p_db($sql); */
 		$link = $this->Link();
 		$link->query($sql);
 		$link = null;
@@ -151,7 +145,6 @@ class LibDataBase {
 	public function Assoc($sql) {
 		$link = $this->Link();
 		$re = $link->query($sql);
-		//print_r($re);
 		$re->setFetchMode(PDO::FETCH_ASSOC);
 		$re = $re->fetchAll();
 		$this->sql_count = count($re);

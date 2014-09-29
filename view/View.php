@@ -60,19 +60,14 @@
 	</script>";
 		}
 		private function getBody($filename){
-			//echo 11;
 			$str = "";
-			//判斷是否有該檔案
 			if(file_exists($filename)){
 				$file = fopen($filename, "r");
 				if($file != NULL){
-					//當檔案未執行到最後一筆，迴圈繼續執行(fgets一次抓一行)
 					while (!feof($file)) {
 						$tmp = fgets($file);
-						//$PwFn='';
 						if(stristr ($tmp,'password')){
 							$this->isPw = true;
-							//$tmp .= "<input type = 'test' id = ''"
 						}
 						$str .= $tmp;
 					}
