@@ -9,7 +9,7 @@ class LibDataBase {
 	function __construct() {
 		if(file_exists('lib/Config.php')){
 			include_once 'lib/Config.php';
-			if (!isset($DbType) ) {
+			if ( !isset($DbType) ) {
 				$this->install = true;
 			}else{
 				$this->dbtype = $DbType;
@@ -23,36 +23,29 @@ class LibDataBase {
 					$this->dbname = $DbName;
 				}
 			}
-			
 		}else{
 			$this->install = true;
 		}
 	}
 	protected function comb($sub1, $sub2) {
-		$re = '';
-		$sub3 = '';
+		$re = false;
 		if (is_array($sub1)) {
-			foreach ($sub1 as $value) {
-				$re .= $sub3 . $value;
-				$sub3 = $sub2;
-			}
+			$re = implode($sub2,array_values($sub1));
 		} else {
 			$re = $sub1;
 		}
+		if(!$re)
+			$re = $this->table;
 		return $re;
 	}
 
 	public function Link() {
 		//test link add by Sam 20140805
 		$link = false;
-		if ($this->dbtype == 'mysql') {
+		if ($this->dbtype == 'mysql' and !$this->chkservice($this->dbhost, 3306)) {
 			$to_host = $this->dbhost;
 			$to_user = $this->dbuser;
 			$to_pass = $this->dbpass;
-			if (!$this->chkservice($this->dbhost, 3306)) {
-				echo 'MySql unlink.';
-				exit;
-			}
 			$link = new PDO(
 					"mysql:host=$to_host;dbname=" . $this->dbname, $to_user, $to_pass, [
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
@@ -88,15 +81,12 @@ class LibDataBase {
 	}
 	//共用function end
 	//語法組合
-	public function Select($table, $field, $req = '', $or_by = '', $limit = '') {
+	public function Select($table, $field, $req = false, $or_by = false, $limit = false) {
 		$table = $this->comb($table, ', ');
 		$field = $this->comb($field, ', ');
-		if ($req != '')
-			$req = 'where ' . $req;
-		if ($or_by != '')
-			$or_by = " order by " . $this->comb($or_by, ', ');
-		if ($limit != '')
-			$limit = " limit " . $limit;
+		$req = ($req)?'where ' . $req:'';
+		$or_by = ($or_by)?" order by " . $this->comb($or_by, ', '):'';
+		$limit = ($limit)?" limit " . $limit:'';
 		$sql = "select $field from $table $req $or_by $limit;";
 		return $sql;
 	}
@@ -149,7 +139,6 @@ class LibDataBase {
 		$re = $re->fetchAll();
 		$this->sql_count = count($re);
 		$link = null;
-		
 		return $this->ValDecode($re);
 	}
 	private function html_decode($body){
@@ -171,5 +160,3 @@ class LibDataBase {
 		return $arr;
 	}
 }
-
-?>

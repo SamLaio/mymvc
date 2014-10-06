@@ -4,4 +4,3 @@ class ModelIndex  extends LibDataBase {
 		parent::__construct();
 	}
 }
-?>
