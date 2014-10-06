@@ -10,4 +10,3 @@ class error extends LibDataBase {
 	}
 
 }
-?>

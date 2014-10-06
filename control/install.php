@@ -30,7 +30,7 @@ class install {
 		if(isset($arr['DbAdPw']) and $arr['DbAdPw'] != '')
 			$str .= '$'."DbPw = '".$arr['DbAdPw']."';\n";
 		//mysql
-		$str = "<?php\n".$str."?>";
+		$str = "<?php\n".$str."";
 		$fp = fopen('lib/Config.php','w+');
 		fwrite($fp,$str);
 		fclose($fp);
@@ -39,4 +39,3 @@ class install {
 		$this->installObj->St1(array('AdName'=>$arr['AdName'],'AdPw'=>$arr['AdPw']));
 	}
 }
-
