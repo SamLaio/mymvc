@@ -30,12 +30,12 @@ class install {
 		if(isset($arr['DbAdPw']) and $arr['DbAdPw'] != '')
 			$str .= '$'."DbPw = '".$arr['DbAdPw']."';\n";
 		//mysql
-		$str = "<?php\n".$str."";
+		$str = "<?php\n".$str."\n?>";
 		$fp = fopen('lib/Config.php','w+');
 		fwrite($fp,$str);
 		fclose($fp);
 		include 'model/install.php';
 		$this->installObj = new ModeInstall;
-		$this->installObj->St1(array('AdName'=>$arr['AdName'],'AdPw'=>$arr['AdPw']));
+		$this->installObj->St1(array('AdName'=>$arr['AdName'],'AdPw'=>$arr['AdPw'],'SiteName'=>$arr['SiteName'],'SiteUrl'=>$arr['SiteUrl']));
 	}
 }

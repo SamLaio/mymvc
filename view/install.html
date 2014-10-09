@@ -1,5 +1,7 @@
 AdName<input type = 'text' id = 'AdName' /><br />
 Adpw<input type = 'password' id = 'AdPw' /><br />
+SiteName<input type = 'text' id = 'SiteName' /><br />
+SiteUrl<input type = 'text' id = 'SiteUrl' /><br />
 DbType<select id = 'DbType'><option value = ''></option><option value = 'sqlite'>Sqlite</option><option value = 'mysql'>MySql</option></select><br />
 <div id ='sql'>
 	DbName<input type = 'text' id = 'DbName' /><br />
@@ -17,7 +19,13 @@ $('#sql').hide();
 $('#mysql').hide();
 function next(){
 	//document.location.href="?AdPw="+$('#AdPw').val();
-	$.post('./install/St1?cgi=true',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val()},function(re){location.reload();});
+	if($('#SiteUrl').val().search('http://') == -1){
+		if($('#SiteUrl').val().search('https://') == -1)
+			$('#SiteUrl').val('http://'+$('#SiteUrl').val());
+	}
+	if($('#SiteUrl').val().lastIndexOf('/',($('#SiteUrl').val().length-1)) != $('#SiteUrl').val().length-1)
+		$('#SiteUrl').val($('#SiteUrl').val()+'/');
+	$.post('./install/St1?cgi=true',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val(),'SiteName':$('#SiteName').val(),'SiteUrl':$('#SiteUrl').val()},function(re){location.reload();});
 }
 $('#DbType').change(function(){
 	$('#sql').hide();

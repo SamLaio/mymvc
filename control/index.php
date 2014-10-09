@@ -5,9 +5,4 @@ class index {
 		include 'model/index.php';
 		$this->db = new ModelIndex;
 	}
-
-	public function error($id = false) {
-		
-	}
-
 }
