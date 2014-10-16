@@ -20,9 +20,9 @@ if(!file_exists('lib/Config.php') and !strpos($_SERVER['REQUEST_URI'],'install')
 		define('DbPw', $DbPw);
 	if(isset($DbName))
 		define('DbName', $DbName);
+	include 'model/load.php';
+	$Load = new Load;
 }
-include 'model/load.php';
-$Load = new Load;
 /*
  					$this->dbhost = $DbHost;
 					$this->dbuser = $DbUser;
