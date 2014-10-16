@@ -1,16 +1,16 @@
 <?php
-
 class LibBoot {
 	function __construct($url) {
 		$CGI = false;
-		if($url[2] == 'cgi'){
-			$url[2] = (isset($url[3]))? $url[3]: 'index';
-			$url[3] = (isset($url[4]))? $url[4]: 'index';
+		if(isset($url[0]) and $url[0] == 'cgi'){
+			$url[0] = (isset($url[1]))? $url[1]: 'index';
+			$url[1] = (isset($url[2]))? $url[2]: 'index';
 			$CGI = true;
 		}
-		$url[3] = (!isset($url[3]))?'index':$url[3];
-		$view = $this->FileCk(SCANDIR('view/'.$url[2]), $url[3]);
-		$control = $this->FileCk(SCANDIR('control'), $url[2]);
+		$url[0] = (!isset($url[0]) or $url[0] == '')?'index':$url[0];
+		$url[1] = (!isset($url[1]) or $url[1] == '')?'index':$url[1];
+		$view = $this->FileCk(SCANDIR('view/'.$url[0]), $url[1]);
+		$control = $this->FileCk(SCANDIR('control'), $url[0]);
 		if(isset($_SESSION['PwHand'])){
 			$_SESSION['DePwHand'] = $_SESSION['PwHand'];
 		}
@@ -21,12 +21,10 @@ class LibBoot {
 		$data['post'] = $this->InDataCk($_POST);
 		include "control/$control.php";
 		$ControlObj = new $control;
-		
-		$url[3] = explode('?', $url[3]);
-		$url[3] = $url[3][0];
+
 		$ControlRet = false;
-		if (method_exists($ControlObj, $url[3])) {
-			$ControlRet = (count($data['get']) != 0 or count($data['post']) != 0)? $ControlObj->{$url[3]}($data): $ControlObj->{$url[3]}();
+		if (method_exists($ControlObj, $url[1])) {
+			$ControlRet = (count($data['get']) != 0 or count($data['post']) != 0)? $ControlObj->{$url[1]}($data): $ControlObj->{$url[1]}();
 		}
 		
 		if(!$CGI){

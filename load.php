@@ -30,4 +30,13 @@ if(!file_exists('lib/Config.php') and !strpos($_SERVER['REQUEST_URI'],'install')
 					$this->dbpass = $DbPw;
 					$this->dbname = $DbName;
  */
-$boot = new LibBoot(explode('/', $_SERVER['REQUEST_URI']));
+$baseUrl = explode('/',$_SERVER['PHP_SELF']);
+$ck = false;
+$url = array();
+foreach($baseUrl as $baseK => $baseV){
+	if($ck)
+		$url[] = $baseV;
+	if($baseV == 'load.php')
+		$ck = true;
+}
+$boot = new LibBoot($url);
