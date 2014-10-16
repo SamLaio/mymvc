@@ -25,7 +25,7 @@ function next(){
 	}
 	if($('#SiteUrl').val().lastIndexOf('/',($('#SiteUrl').val().length-1)) != $('#SiteUrl').val().length-1)
 		$('#SiteUrl').val($('#SiteUrl').val()+'/');
-	$.post('./install/St1?cgi=true',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val(),'SiteName':$('#SiteName').val(),'SiteUrl':$('#SiteUrl').val()},function(re){location.reload();});
+	$.post('cgi/install/St1',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val(),'SiteName':$('#SiteName').val(),'SiteUrl':$('#SiteUrl').val()},function(re){location.reload();});
 }
 $('#DbType').change(function(){
 	$('#sql').hide();

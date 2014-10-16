@@ -130,6 +130,7 @@ class LibDataBase {
 			$sql = $this->Select($sql,$field, $req, $or_by, $limit);
 		//echo $sql;exit;
 		$link = $this->Link();
+		//print_r($link);exit;
 		$re = $link->query($sql);
 		$re->setFetchMode(PDO::FETCH_ASSOC);
 		$re = $re->fetchAll();

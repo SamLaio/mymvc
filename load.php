@@ -5,11 +5,8 @@ include_once 'lib/LibBoot.php';
 include_once 'lib/LibDataBase.php';
 if(!file_exists('lib/Config.php') and !strpos($_SERVER['REQUEST_URI'],'install')){
 	header('Location: install');
-}else if(file_exists('lib/Config.php') and strpos($_SERVER['REQUEST_URI'],'install')){
-	header('Location: index');
 }else if(file_exists('lib/Config.php')){
 	include 'lib/config.php';
-	//echo $DbType;exit;
 	if(isset($DbType))
 		define('DbType', $DbType);
 	if(isset($DbHost))
@@ -20,8 +17,12 @@ if(!file_exists('lib/Config.php') and !strpos($_SERVER['REQUEST_URI'],'install')
 		define('DbPw', $DbPw);
 	if(isset($DbName))
 		define('DbName', $DbName);
+	// echo DbType;
 	include 'model/load.php';
 	$Load = new Load;
+	if(strpos($_SERVER['REQUEST_URI'],'install')){
+		header('Location: index');
+	}
 }
 /*
  					$this->dbhost = $DbHost;

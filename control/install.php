@@ -2,6 +2,7 @@
 class install {
 	private $installObj;
 	function __construct() {
+		//echo 11;
 		if(file_exists('lib/Config.php')){
 			include 'lib/Config.php';
 			if(isset($DbType)){
@@ -30,12 +31,26 @@ class install {
 		if(isset($arr['DbAdPw']) and $arr['DbAdPw'] != '')
 			$str .= '$'."DbPw = '".$arr['DbAdPw']."';\n";
 		//mysql
+		if(isset($arr['DbType']))
+			define('DbType', $arr['DbType']);
+		if(isset($arr['DbHost']))
+			define('DbHost', $arr['DbHost']);
+		if(isset($arr['DbUser']))
+			define('DbUser', $arr['DbUser']);
+		if(isset($arr['DbPw']))
+			define('DbPw', $arr['DbPw']);
+		if(isset($arr['DbName'])){
+			if(DbType == 'sqlite')
+				define('DbName', 'model/'.$arr['DbName']);
+			else
+				define('DbName', $arr['DbName']);
+		}
 		$str = "<?php\n".$str."\n?>";
 		$fp = fopen('lib/Config.php','w+');
 		fwrite($fp,$str);
 		fclose($fp);
 		include 'model/install.php';
-		$this->installObj = new ModeInstall;
+		$this->installObj = new InstallModel;
 		$this->installObj->St1(array('AdName'=>$arr['AdName'],'AdPw'=>$arr['AdPw'],'SiteName'=>$arr['SiteName'],'SiteUrl'=>$arr['SiteUrl']));
 	}
 }
