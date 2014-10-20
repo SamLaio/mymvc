@@ -1,0 +1,33 @@
+<span class = 'Lang_account'></span><input type ="text" id = 'acc' />
+<span class = 'Lang_password'></span><input type ='password' id ='pswd' /><br />
+<span class = 'Lang_captcha'></span><br />
+<img src = '<?php echo $_SESSION['SiteUrl']; ?>cgi/captcha/ImgPut' />
+<input type ='text' id = 'captcha' />
+<input type ='button' class = 'Lang_submit' onclick = 'userck()'/>
+
+<script>
+	$(window).ready(function(){
+		$('#acc, #pswd').on("keydown", function (e) {
+			//-- 13 > Enter鍵 || 9 > Tab鍵
+			if (e.which == 13)
+				userck();
+		});
+	});
+	function userck(){
+		$.post('cgi/captcha/ImgCheck',{'captcha':$('#captcha').val()},function(e){
+			if(e == 1){
+				$.post('cgi/login/UserCk',{'account': $('#acc').val(),'pswd': $('#pswd').val()},
+					function(e){
+						if(e==1){
+							document.location.href='<?php echo $_SESSION['SiteUrl']; ?>index';
+						}else{
+							alert('Login Error!');
+						}
+					});
+			}else{
+				alert('Captcha Error!');
+			}
+		});			
+		//alert('1');
+	}
+</script>

@@ -2,8 +2,8 @@
 class View {
 	private $isPw = false;
 	function __construct($page, $InData) {
-		include_once 'hand.html';
-		include "view/$page.html";
+		include_once 'hend.html';
+		include_once "view/$page.html";
 		if($this->getBody('view/'.$page.'.html')){
 			echo $this->PwEnCode();
 		}

@@ -1,22 +1,45 @@
-AdName<input type = 'text' id = 'AdName' /><br />
-Adpw<input type = 'password' id = 'AdPw' /><br />
-SiteName<input type = 'text' id = 'SiteName' /><br />
-SiteUrl<input type = 'text' id = 'SiteUrl' /><br />
-DbType<select id = 'DbType'><option value = ''></option><option value = 'sqlite'>Sqlite</option><option value = 'mysql'>MySql</option></select><br />
-<div id ='sql'>
-	DbName<input type = 'text' id = 'DbName' /><br />
-	<div id ='mysql'>
-		DbHost<input type = 'text' id = 'DbHost' /><br />
-		DbAdame<input type = 'text' id = 'DbAdName' /><br />
-		DbAdPw<input type = 'password' id = 'DbAdPw' /><br />
+<div id = 'InstallSet' style = 'width:30%;display:inline-block;'>
+	<span class = 'Lang_AdminName' ></span><input type = 'text' id = 'AdName' /><br />
+	<span class = 'Lang_AdminPw' ></span><input type = 'password' id = 'AdPw' /><br />
+	<span class = 'Lang_SiteName' ></span><input type = 'text' id = 'SiteName' /><br />
+	<span class = 'Lang_SiteUrl' ></span><input type = 'text' id = 'SiteUrl' /><br />
+	<span class = 'Lang_SiteLang' ></span><select id = 'SiteLang' /><option value = ''></option></select><br />
+	<span class = 'Lang_DbType' ></span><select id = 'DbType'><option value = ''></option><option value = 'sqlite'>Sqlite</option><option value = 'mysql'>MySql</option></select><br />
+	<div id ='sql'>
+		<span class = 'Lang_DbName' ></span><input type = 'text' id = 'DbName' /><br />
+		<div id ='mysql'>
+			<span class = 'Lang_DbHost' ></span><input type = 'text' id = 'DbHost' /><br />
+			<span class = 'Lang_DbAdame' ></span><input type = 'text' id = 'DbAdName' /><br />
+			<span class = 'Lang_DbAdPw' ></span><input type = 'password' id = 'DbAdPw' /><br />
+		</div>
 	</div>
+	<input type = 'button' class = 'Lang_submit' onclick ='next()' id = 'next' />
 </div>
-<input type = 'button' onclick ='next()' id = 'next' />
 <script>
 var st = 0;
 var AdName,Adpw,DbType,DbHost,DbName,DbAdame,DbAdPw;
-$('#sql').hide();
-$('#mysql').hide();
+$(window).ready(function(){
+	$('#sql').hide();
+	$('#mysql').hide();
+	$.post('cgi/install/Lang',function(e){
+		for(var i = 0; i < e.length; i++){
+			$('#SiteLang').append("<option value = '"+e[i]['lang']+"'>"+e[i]['lang']+"</option>");
+		}
+	},'json');
+	$('#DbType').change(function(){
+		$('#sql').hide();
+		$('#mysql').hide();
+		if($(this).val() != ''){
+			$('#sql').show();
+			if($(this).val() != 'sqlite'){
+				$('#mysql').show();
+			}
+		}
+	});
+	$('#SiteLang').change(function(){
+		$("head").append("<scr" + "ipt type=\"text/javascript\" src=\"view/lang/"+$(this).val()+".php\"></scr" + "ipt>");
+	});
+});
 function next(){
 	//document.location.href="?AdPw="+$('#AdPw').val();
 	if($('#SiteUrl').val().search('http://') == -1){
@@ -25,16 +48,6 @@ function next(){
 	}
 	if($('#SiteUrl').val().lastIndexOf('/',($('#SiteUrl').val().length-1)) != $('#SiteUrl').val().length-1)
 		$('#SiteUrl').val($('#SiteUrl').val()+'/');
-	$.post('cgi/install/St1',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val(),'SiteName':$('#SiteName').val(),'SiteUrl':$('#SiteUrl').val()},function(re){location.reload();});
+	$.post('cgi/install/St1',{"AdName":$('#AdName').val(),"AdPw":$('#AdPw').val(),"DbType":$('#DbType').val(),"DbName":$('#DbName').val(),"DbHost":$('#DbHost').val(),"DbAdName":$('#DbAdName').val(),"DbAdPw":$('#DbAdPw').val(),'SiteName':$('#SiteName').val(),'SiteUrl':$('#SiteUrl').val(),'SiteLang':$('#SiteLang').val()},function(re){location.reload();});
 }
-$('#DbType').change(function(){
-	$('#sql').hide();
-	$('#mysql').hide();
-	if($(this).val() != ''){
-		$('#sql').show();
-		if($(this).val() != 'sqlite'){
-			$('#mysql').show();
-		}
-	}
-});
 </script>

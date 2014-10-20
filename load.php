@@ -17,19 +17,12 @@ if(!file_exists('lib/Config.php') and !strpos($_SERVER['REQUEST_URI'],'install')
 		define('DbPw', $DbPw);
 	if(isset($DbName))
 		define('DbName', $DbName);
-	// echo DbType;
 	include 'model/load.php';
 	$Load = new Load;
 	if(strpos($_SERVER['REQUEST_URI'],'install')){
 		header('Location: index');
 	}
 }
-/*
- 					$this->dbhost = $DbHost;
-					$this->dbuser = $DbUser;
-					$this->dbpass = $DbPw;
-					$this->dbname = $DbName;
- */
 $baseUrl = explode('/',$_SERVER['PHP_SELF']);
 $ck = false;
 $url = array();

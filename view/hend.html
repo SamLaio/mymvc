@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1.0" name="viewport"/>
+<title><?php echo $_SESSION['SiteName']; ?></title>
+</head>
+	<body>
+		<script src="lib/js/jquery.min.js"></script>
+		<script src="lib/js/LibJs.js"></script>
+		<link href="css/base.css" rel="stylesheet">
+		<script src="view/lang/<?php echo $_SESSION['SiteLang']?>.php"></script>
+		<div id = 'BodyMain'>
+			<div id = 'hender'>
+<?php
+	if(file_exists('lib/Config.php')){
+?>
+				[<span id = 'goIndex' class = 'link'><span class = 'Lang_goIndex'></span></span>]
+<?php
+		if(!isset($_SESSION['UserId']))
+			echo "\t\t\t\t[<span id = 'login' class = 'link'><span class = 'Lang_login'></span></span>]\n";
+		else
+			echo "\t\t\t\t[<span id = 'logout' class = 'link'><span class = 'Lang_logout'></span></span>]\n";
+	}else{
+		echo "<div style='text-align:center'><span class = 'Lang_InstallInfo'></span></div>";
+	}
+?>
+		</div>

@@ -1,16 +1,20 @@
 <?php
 class LibBoot {
 	function __construct($url) {
-		$CGI = false;
+		// print_r($url);exit;
 		if(isset($url[0]) and $url[0] == 'cgi'){
+			$CGI = true;
 			$url[0] = (isset($url[1]))? $url[1]: 'index';
 			$url[1] = (isset($url[2]))? $url[2]: 'index';
-			$CGI = true;
+			$control = $this->FileCk(SCANDIR('control'), $url[0]);
+		}else{
+			$CGI = false;
+			$url[0] = (!isset($url[0]) or $url[0] == '')?'index':$url[0];
+			$url[1] = (!isset($url[1]) or $url[1] == '')?'index':$url[1];
+			$view = $this->FileCk(SCANDIR('view'), $url[0],false);
+			$view = $this->FileCk(SCANDIR('view/'.$view), $url[1]);
+			$control = $this->FileCk(SCANDIR('control'), $url[0]);
 		}
-		$url[0] = (!isset($url[0]) or $url[0] == '')?'index':$url[0];
-		$url[1] = (!isset($url[1]) or $url[1] == '')?'index':$url[1];
-		$view = $this->FileCk(SCANDIR('view/'.$url[0]), $url[1]);
-		$control = $this->FileCk(SCANDIR('control'), $url[0]);
 		if(isset($_SESSION['PwHand'])){
 			$_SESSION['DePwHand'] = $_SESSION['PwHand'];
 		}
@@ -26,16 +30,10 @@ class LibBoot {
 		if (method_exists($ControlObj, $url[1])) {
 			$ControlRet = (count($data['get']) != 0 or count($data['post']) != 0)? $ControlObj->{$url[1]}($data): $ControlObj->{$url[1]}();
 		}
-		
 		if(!$CGI){
 			include "view/View.php";
 			$ViewObj = new View($control.'/'.$view,$ControlRet);
 		}
-		/*if($view == $control and !isset($data['get']['cgi'])){
-			include "view/View.php";
-			$ViewObj = new View($view);
-		}
-		*/
 		if(isset($_SESSION['DePwEnCode'])){
 			unset($_SESSION['DePwEnCode']);
 		}
@@ -44,11 +42,12 @@ class LibBoot {
 		}
 	}
 
-	private function FileCk($arr, $file_name) {
+	private function FileCk($arr, $file_name, $isFile = true) {
 		$ret = 'error';
-		//print_r($arr);
 		foreach ($arr as $value) {
-			if (substr($value, 0, strrpos($value, ".")) == $file_name)
+			if (substr($value, 0, strrpos($value, ".")) == $file_name and $isFile)
+				$ret = $file_name;
+			else if ($value == $file_name and !$isFile)
 				$ret = $file_name;
 		}
 		return $ret;
