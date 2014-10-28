@@ -32,14 +32,16 @@ class LibDataBase {
 	public function Link() {
 		//test link add by Sam 20140805
 		$link = false;
-		if ($this->dbtype == 'mysql' and !$this->chkservice($this->dbhost, 3306)) {
+		
+		if ($this->dbtype == 'mysql' and $this->chkservice($this->dbhost, 3306)) {
 			$to_host = $this->dbhost;
 			$to_user = $this->dbuser;
 			$to_pass = $this->dbpass;
+			
 			$link = new PDO(
 					"mysql:host=$to_host;dbname=" . $this->dbname, $to_user, $to_pass, [
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
-				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+						PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
+						PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
 					]
 			);
 		}
@@ -59,15 +61,17 @@ class LibDataBase {
 
 	//測試連線
 	private function chkservice($host, $port) {
+		
 		$ch_ini_display = (ini_get('display_errors') == 1);
 		if ($ch_ini_display) //判斷ini的display errors的設定
 			ini_set('display_errors', 0); //設定連線錯誤時不要display errors
 		$x = fsockopen(gethostbyname($host), $port, $errno, $errstr, 1);
 		if ($ch_ini_display)
 			ini_set('display_errors', 1); //將ini的display error設定改回來
-		if (!$x)//測試連線
+		if (!$x){//測試連線
+			
 			return false;
-		else {
+		}else {
 			fclose($x);
 			return true;
 		}
@@ -110,6 +114,7 @@ class LibDataBase {
 	//語法組合 end
 	//sql執行
 	public function Query($sql) {
+		echo $sql;
 		$link = $this->Link();
 		$link->query($sql);
 		$link = null;

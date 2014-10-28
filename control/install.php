@@ -47,16 +47,18 @@ class install {
 			define('DbType', $arr['DbType']);
 		if(isset($arr['DbHost']))
 			define('DbHost', $arr['DbHost']);
-		if(isset($arr['DbUser']))
-			define('DbUser', $arr['DbUser']);
-		if(isset($arr['DbPw']))
-			define('DbPw', $arr['DbPw']);
+		if(isset($arr['DbAdName']))
+			define('DbUser', $arr['DbAdName']);
+		if(isset($arr['DbAdPw']))
+			define('DbPw', $arr['DbAdPw']);
 		if(isset($arr['DbName'])){
 			if(DbType == 'sqlite')
 				define('DbName', 'model/'.$arr['DbName']);
 			else
 				define('DbName', $arr['DbName']);
 		}
+		// echo DbPw;exit;
+		$_SESSION['SiteLang'] = $arr['SiteLang'];
 		$str = "<?php\n".$str."\n?>";
 		$fp = fopen('lib/Config.php','w+');
 		fwrite($fp,$str);
